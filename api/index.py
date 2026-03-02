@@ -1,10 +1,20 @@
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 import requests
 from bs4 import BeautifulSoup
 import re
 
 app = FastAPI(title="NFC-e SP Parser API", version="1.0.0")
+
+# Configuração de CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Em produção, você pode substituir "*" pelas URLs do seu front-end
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def clean_text(text: Optional[str]) -> str:
     if not text:
